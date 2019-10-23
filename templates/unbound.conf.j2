@@ -34,23 +34,55 @@ server:
     harden-glue: yes
     harden-dnssec-stripped: yes
     use-caps-for-id: yes
-    private-domain: "{{ unbound_private_domain }}"
+{% for sd in unbound_stub_zones %}
+    private-domain: "{{ sd.domain }}"
+{% endfor %}
     prefetch: yes
 
-    ratelimit: 5
+    ratelimit: 1000
     ratelimit-size: 4m
     ratelimit-slabs: 2
     ratelimit-factor: 0
 
     root-hints: /usr/share/dns/root.hints
 
-{% for sd in unbound_stub_domains %}
+    local-zone: "10.in-addr.arpa." nodefault
+    local-zone: "16.172.in-addr.arpa." nodefault
+    local-zone: "17.172.in-addr.arpa." nodefault
+    local-zone: "18.172.in-addr.arpa." nodefault
+    local-zone: "19.172.in-addr.arpa." nodefault
+    local-zone: "20.172.in-addr.arpa." nodefault
+    local-zone: "21.172.in-addr.arpa." nodefault
+    local-zone: "22.172.in-addr.arpa." nodefault
+    local-zone: "23.172.in-addr.arpa." nodefault
+    local-zone: "24.172.in-addr.arpa." nodefault
+    local-zone: "25.172.in-addr.arpa." nodefault
+    local-zone: "26.172.in-addr.arpa." nodefault
+    local-zone: "27.172.in-addr.arpa." nodefault
+    local-zone: "28.172.in-addr.arpa." nodefault
+    local-zone: "29.172.in-addr.arpa." nodefault
+    local-zone: "30.172.in-addr.arpa." nodefault
+    local-zone: "31.172.in-addr.arpa." nodefault
+    local-zone: "168.192.in-addr.arpa." nodefault
+
+{% for sd in unbound_stub_zones %}
 stub-zone:
-    name: "{{ db.domain }}."
+    name: "{{ sd.domain }}."
     stub-no-cache: yes
-{% for server in sb.dns_servers %}
+{% for server in sd.dns_servers %}
     stub-addr: {{ server }}
 {% endfor %}
+
+{% endfor %}
+
+{% for rz in unbound_v4_reverse_zones %}
+stub-zone:
+    name: "{{ rz.zone }}.in-addr.arpa"
+    stub-no-cache: yes
+{% for server in rz.dns_servers %}
+    stub-addr: {{ server }}
+{% endfor %}
+
 {% endfor %}
 
 python:

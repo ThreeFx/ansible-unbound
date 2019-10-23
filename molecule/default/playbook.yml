@@ -15,6 +15,13 @@
           - domain: example.org
             dns_servers:
               - "{{ hostvars['dhcp-ddns'].ansible_default_ipv4.address }}"
+        unbound_v4_reverse_zones:
+          - zone: 0.17.172
+            dns_servers:
+              - "{{ hostvars['dhcp-ddns'].ansible_default_ipv4.address }}"
+          - zone: 1.17.172
+            dns_servers:
+              - "{{ hostvars['dhcp-ddns'].ansible_default_ipv4.address }}"
         unbound_allow_subnets:
           - "{{ (ansible_default_ipv4.address + '/' + ansible_default_ipv4.netmask) | ipaddr('network/prefix') }}"
           - "{{ ansible_default_ipv6.address }}/{{ ansible_default_ipv6.prefix }}"

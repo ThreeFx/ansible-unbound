@@ -7,8 +7,13 @@ unbound_outgoing_ips: "{{ unbound_listen_ips }}"
 unbound_allow_subnets: []         # optional, allowed subnets for querying unbound
 # - "169.254.0.0.1/24"
 
-unbound_stub_domains: []          # optional, stub domains to configure
+unbound_stub_zones: []            # optional, additional stub zones to configure
 # - domain: example.org           # note that DNS servers/resolvers for stub
 #   dns_servers:                  # domains are required to be authoritative
 #     - 127.0.0.1                 # and non-recursive.
 #     - 127.0.0.2
+
+unbound_v4_reverse_zones: []      # optional, IPv4 reverse zones to serve
+# - zone: 0.17.172
+#   dns_servers:
+#     - 127.0.0.1

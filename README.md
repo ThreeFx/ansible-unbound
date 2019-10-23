@@ -16,7 +16,8 @@ Role Variables
  `unbound_listen_ips`| [] | **required**, ip addresses to listen on
  `unbound_outgoing_ips`| `"{{ unbound_listen_ips }}"`
  `unbound_allow_subnets`| [] | optional, allowed subnets for querying unbound
- `unbound_stub_domains`| [] | optional, stub domains to configure, see `defaults/main.yml` for details
+ `unbound_stub_zones`| [] | optional, stub zones to configure, see `defaults/main.yml` for details
+ `unbound_v4_reverse_zones`| [] | optional, IPv4 reverse zones to configure, see `defaults/main.yml` for details
 
 Dependencies
 ------------

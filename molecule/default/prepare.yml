@@ -1,4 +1,8 @@
 ---
+- name: Gather facts
+  hosts: all
+  gather_facts: True
+
 - name: Depends
   hosts: dhcp-ddns
   roles:
@@ -25,3 +29,5 @@
           - name: test
             mac: 02:42:ac:11:00:03
             ip: 172.17.0.200
+        dhcp_ddns_bind_additional_allowed_hosts:
+          - "{{ hostvars['unbound']['ansible_default_ipv4']['address'] }}"
