@@ -17,6 +17,6 @@ jobs:
       - name: Set up virtualenv
         run: python -m virtualenv /tmp/venv -p python3
       - name: Install molecule in the virtual env
-        run: source /tmp/venv/bin/activate && pip install molecule docker
+        run: source /tmp/venv/bin/activate && pip install molecule docker netaddr
       - name: Run molecule test
         run: source /tmp/venv/bin/activate && molecule test
