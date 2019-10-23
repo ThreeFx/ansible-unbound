@@ -10,7 +10,7 @@
       vars:
         unbound_listen_ips:
           - "{{ ansible_default_ipv4.address }}"
-        # - "{{ ansible_default_ipv6.address }}"
+          - "{{ ansible_default_ipv6.address }}"
         unbound_stub_zones:
           - domain: example.org
             dns_servers:
@@ -24,4 +24,4 @@
               - "{{ hostvars['dhcp-ddns'].ansible_default_ipv4.address }}"
         unbound_allow_subnets:
           - "{{ (ansible_default_ipv4.address + '/' + ansible_default_ipv4.netmask) | ipaddr('network/prefix') }}"
-        # - "{{ ansible_default_ipv6.address }}/{{ ansible_default_ipv6.prefix }}"
+          - "{{ ansible_default_ipv6.address }}/{{ ansible_default_ipv6.prefix }}"
