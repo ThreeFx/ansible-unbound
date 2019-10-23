@@ -1,5 +1,6 @@
 ---
 - name: restart unbound
+  become: True
   systemd:
     name: unbound
     state: restarted
