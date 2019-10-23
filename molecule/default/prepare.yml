@@ -1,0 +1,27 @@
+---
+- name: Depends
+  hosts: dhcp-ddns
+  roles:
+    - role: dhcp-ddns
+      vars:
+        dhcp_ddns_v4_dhcp_interfaces:
+          - eth0
+        dhcp_ddns_domain_name: example.org
+        dhcp_ddns_v4_dns_servers:
+          - 192.168.0.1
+          - 192.168.0.2
+        dhcp_ddns_v4_subnets:
+          - network: 172.17.0.0
+            netmask: 255.255.0.0
+            routers:
+              - 172.17.0.1
+            dhcp_range:
+              begin: 172.17.0.100
+              end: 172.17.0.150
+        dhcp_ddns_v4_reverse_zones:
+          - 0.17.172
+          - 1.17.172
+        dhcp_ddns_v4_static_mappings:
+          - name: test
+            mac: 02:42:ac:11:00:03
+            ip: 172.17.0.200

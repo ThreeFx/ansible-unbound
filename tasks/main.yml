@@ -1,0 +1,19 @@
+---
+- name: Fail when not listening on any interface
+  fail:
+    msg: Please specify at least one ip in 'unbound_listen_ips'
+  when: unbound_listen_ips == []
+
+- name: Install unbound
+  become: True
+  apt:
+    name:
+      - unbound
+    state: present
+
+- name: Configure unbound
+  become: True
+  template:
+    src: unbound.conf.j2
+    dest: /etc/unbound/unbound.conf
+  notify: restart unbound

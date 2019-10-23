@@ -1,0 +1,57 @@
+# {{ ansible_managed }}
+
+server:
+    use-syslog: yes
+    log-queries: no
+    log-replies: no
+    log-servfail: yes
+    do-daemonize: no
+    username: "unbound"
+    directory: "/etc/unbound"
+    verbosity: 1
+    statistics-interval: 21600 # every 6 h
+    extended-statistics: no
+    num-threads: 2
+{% for ip in unbound_listen_ips %}
+    interface: "{{ ip }}"
+{% endfor %}
+{% for ip in unbound_outgoing_ips %}
+    outgoing-interface: "{{ ip }}"
+{% endfor %}
+    cache-min-ttl: 300
+    cache-max-ttl: 86400
+    do-ip4: yes
+    do-ip6: yes
+    do-udp: yes
+    do-tcp: yes
+    access-control: 0.0.0.0/0 deny
+{% for subnet in unbound_allow_subnets %}
+    access-control: "{{ subnet }}" allow
+{% endfor %}
+    hide-identity: yes
+    hide-version: yes
+    hide-trustanchor: yes
+    harden-glue: yes
+    harden-dnssec-stripped: yes
+    use-caps-for-id: yes
+    private-domain: "{{ unbound_private_domain }}"
+    prefetch: yes
+
+    ratelimit: 5
+    ratelimit-size: 4m
+    ratelimit-slabs: 2
+    ratelimit-factor: 0
+
+    root-hints: /usr/share/dns/root.hints
+
+{% if unbound_private_dns_servers != [] %}
+stub-zone:
+    name: "{{ unbound_private_domain }}."
+    stub-no-cache: yes
+{% for server in unbound_private_dns_servers %}
+    stub-addr: {{ server }}
+{% endfor %}
+{% endif %}
+
+python:
+remote-control:
