@@ -1,12 +1,14 @@
 ---
-unbound_listen_ips: []               # required, ip addresses to listen on
+unbound_listen_ips: []            # required, ip addresses to listen on
 # - "127.0.0.1"
 unbound_outgoing_ips: "{{ unbound_listen_ips }}"
 # - "127.0.0.1"
 
-unbound_allow_subnets: []            # optional, allowed subnets for querying unbound
+unbound_allow_subnets: []         # optional, allowed subnets for querying unbound
 # - "169.254.0.0.1/24"
 
-unbound_domain: ""                   # optional, local domain for which to forward requests
-
-unbound_private_dns_servers: []      # optional, local DNS servers to query for {{ unbound_domain }}
+unbound_stub_domains: []          # optional, stub domains to configure
+# - domain: example.org           # note that DNS servers/resolvers for stub
+#   dns_servers:                  # domains are required to be authoritative
+#     - 127.0.0.1                 # and non-recursive.
+#     - 127.0.0.2

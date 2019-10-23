@@ -44,14 +44,14 @@ server:
 
     root-hints: /usr/share/dns/root.hints
 
-{% if unbound_private_dns_servers != [] %}
+{% for sd in unbound_stub_domains %}
 stub-zone:
-    name: "{{ unbound_private_domain }}."
+    name: "{{ db.domain }}."
     stub-no-cache: yes
-{% for server in unbound_private_dns_servers %}
+{% for server in sb.dns_servers %}
     stub-addr: {{ server }}
 {% endfor %}
-{% endif %}
+{% endfor %}
 
 python:
 remote-control:
